@@ -1,3 +1,5 @@
+using DataLayer.Extensions;
+
 namespace Restaurant
 {
     public class Program
@@ -8,6 +10,7 @@ namespace Restaurant
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+            builder.Services.AddDatabase(builder.Configuration.GetConnectionString("DefaultConnection"));
 
             var app = builder.Build();
 
