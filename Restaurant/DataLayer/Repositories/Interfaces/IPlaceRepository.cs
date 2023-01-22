@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace DataLayer.Repositories.Interfaces
 {
-    internal interface IPlaceRepository : IRepository<Place>
+    public interface IPlaceRepository : IRepository<Place>
     {
     }
 }

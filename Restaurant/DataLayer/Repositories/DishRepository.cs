@@ -48,7 +48,7 @@ namespace DataLayer.Repositories
             return _context.SaveChangesAsync();
         }
 
-        public void Update(Guid id, Dish entity)
+        public void Update(Dish entity)
         {
             _context.Entry(entity).State = EntityState.Modified;
         }

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace DataLayer.Repositories.Interfaces
 {
-    internal interface IDishRepository : IRepository<Dish>
+    public interface IDishRepository : IRepository<Dish>
     {
     }
 }

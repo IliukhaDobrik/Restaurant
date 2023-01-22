@@ -15,6 +15,7 @@ namespace DataLayer.Configurations
         {
             builder.HasKey(q => q.DishId);
 
+            builder.Property(q => q.DishId).HasDefaultValueSql("NEWID()");
             builder.Property(q => q.Name).HasMaxLength(50);
             builder.Property(q => q.Description).HasMaxLength(255);
         }

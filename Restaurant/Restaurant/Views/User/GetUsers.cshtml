@@ -1,0 +1,10 @@
+﻿@using Entities;
+@model IEnumerable<Place>
+
+<h1>Users</h1>
+<ul>
+    @foreach(var user in Model)
+    {
+        <li>@user.PlaceId @user.UserId @user.NumberOfSeats @user.IsFree</li>
+    }
+</ul>

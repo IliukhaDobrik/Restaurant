@@ -14,6 +14,7 @@ namespace DataLayer.Configurations
         public void Configure(EntityTypeBuilder<UserDishes> builder)
         {
             builder.HasKey(q => q.UserDishesId);
+            builder.Property(q => q.UserDishesId).HasDefaultValueSql("NEWID()");
 
             builder.HasIndex(q => new { q.UserId, q.DishId }).IsUnique();
 
