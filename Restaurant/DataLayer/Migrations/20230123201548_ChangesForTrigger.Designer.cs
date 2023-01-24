@@ -4,6 +4,7 @@ using DataLayer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataLayer.Migrations
 {
     [DbContext(typeof(MyDbContext))]
-    partial class MyDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230123201548_ChangesForTrigger")]
+    partial class ChangesForTrigger
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -57,7 +59,14 @@ namespace DataLayer.Migrations
                     b.Property<int>("NumberOfSeats")
                         .HasColumnType("int");
 
+                    b.Property<Guid?>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.HasKey("PlaceId");
+
+                    b.HasIndex("UserId")
+                        .IsUnique()
+                        .HasFilter("[UserId] IS NOT NULL");
 
                     b.ToTable("Places");
                 });
@@ -118,9 +127,8 @@ namespace DataLayer.Migrations
                 {
                     b.HasOne("Entities.User", "User")
                         .WithOne("Place")
-                        .HasForeignKey("Entities.Place", "PlaceId")
-                        .OnDelete(DeleteBehavior.SetNull)
-                        .IsRequired();
+                        .HasForeignKey("Entities.Place", "UserId")
+                        .OnDelete(DeleteBehavior.SetNull);
 
                     b.Navigation("User");
                 });

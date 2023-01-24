@@ -16,7 +16,6 @@ namespace DataLayer.Configurations
             builder.HasKey(q => q.PlaceId);
 
             builder.Property(q => q.PlaceId).HasDefaultValueSql("NEWID()");
-            builder.Property(q => q.UserId).IsRequired(false);
         }
     }
 }

@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="EntityFrameworkCore.Triggered" Version="3.2.2" />
+  </ItemGroup>
+
 </Project>

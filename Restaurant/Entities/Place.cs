@@ -9,7 +9,6 @@ namespace Entities
     public sealed class Place
     {
         public Guid PlaceId { get; set; }
-        public Guid? UserId { get; set; }
         public int NumberOfSeats { get; set; }
         public bool IsFree { get; set; }
         public User User { get; set; }

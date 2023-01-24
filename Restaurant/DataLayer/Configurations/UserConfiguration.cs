@@ -22,8 +22,9 @@ namespace DataLayer.Configurations
 
             builder.HasOne(q => q.Place)
                    .WithOne(q => q.User)
-                   .HasForeignKey<Place>(q => q.UserId)
+                   .HasForeignKey<User>(q => q.PlaceId)
                    .OnDelete(DeleteBehavior.SetNull);
+
         }
     }
 }
