@@ -3,13 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33103.184
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Restaurant", "Restaurant\Restaurant.csproj", "{012B5D2A-9162-4C10-81C5-EE1F3B92CE1E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Restaurant", "Restaurant\Restaurant.csproj", "{012B5D2A-9162-4C10-81C5-EE1F3B92CE1E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataLayer", "DataLayer\DataLayer.csproj", "{8C80ECBB-A290-4056-9C28-62ED11373DA8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataLayer", "DataLayer\DataLayer.csproj", "{8C80ECBB-A290-4056-9C28-62ED11373DA8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Entities", "Entities\Entities.csproj", "{05FD19EE-DAC9-40B8-8EDD-685A645CB09F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Entities", "Entities\Entities.csproj", "{05FD19EE-DAC9-40B8-8EDD-685A645CB09F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Exceptions", "Exceptions\Exceptions.csproj", "{154DAD4E-7094-434B-9EC4-98B2E19880EB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Exceptions", "Exceptions\Exceptions.csproj", "{154DAD4E-7094-434B-9EC4-98B2E19880EB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BussinesLayer", "BussinesLayer\BussinesLayer.csproj", "{96AF2856-6374-43E1-B74A-9712EB190F3E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{154DAD4E-7094-434B-9EC4-98B2E19880EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{154DAD4E-7094-434B-9EC4-98B2E19880EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{154DAD4E-7094-434B-9EC4-98B2E19880EB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{96AF2856-6374-43E1-B74A-9712EB190F3E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{96AF2856-6374-43E1-B74A-9712EB190F3E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{96AF2856-6374-43E1-B74A-9712EB190F3E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{96AF2856-6374-43E1-B74A-9712EB190F3E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

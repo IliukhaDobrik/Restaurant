@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataLayer.Migrations
 {
     [DbContext(typeof(MyDbContext))]
-    [Migration("20230124102733_NewChangesForTrigger2")]
-    partial class NewChangesForTrigger2
+    [Migration("20230125205158_TryToFixFK")]
+    partial class TryToFixFK
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -53,10 +53,13 @@ namespace DataLayer.Migrations
                         .HasColumnType("uniqueidentifier")
                         .HasDefaultValueSql("NEWID()");
 
+                    b.Property<int>("CountOfSeats")
+                        .HasColumnType("int");
+
                     b.Property<bool>("IsFree")
                         .HasColumnType("bit");
 
-                    b.Property<int>("NumberOfSeats")
+                    b.Property<int>("SeatNumber")
                         .HasColumnType("int");
 
                     b.HasKey("PlaceId");
@@ -84,10 +87,18 @@ namespace DataLayer.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
+                    b.Property<string>("PhoneNumber")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
                     b.Property<Guid?>("PlaceId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("UserId");
+
+                    b.HasIndex("PlaceId")
+                        .IsUnique()
+                        .HasFilter("[PlaceId] IS NOT NULL");
 
                     b.ToTable("Users");
                 });
@@ -116,15 +127,15 @@ namespace DataLayer.Migrations
                     b.ToTable("UserDishes");
                 });
 
-            modelBuilder.Entity("Entities.Place", b =>
+            modelBuilder.Entity("Entities.User", b =>
                 {
-                    b.HasOne("Entities.User", "User")
-                        .WithOne("Place")
-                        .HasForeignKey("Entities.Place", "PlaceId")
+                    b.HasOne("Entities.Place", "Place")
+                        .WithOne("User")
+                        .HasForeignKey("Entities.User", "PlaceId")
                         .OnDelete(DeleteBehavior.SetNull)
                         .IsRequired();
 
-                    b.Navigation("User");
+                    b.Navigation("Place");
                 });
 
             modelBuilder.Entity("Entities.UserDishes", b =>
@@ -151,11 +162,14 @@ namespace DataLayer.Migrations
                     b.Navigation("UserDishes");
                 });
 
+            modelBuilder.Entity("Entities.Place", b =>
+                {
+                    b.Navigation("User")
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("Entities.User", b =>
                 {
-                    b.Navigation("Place")
-                        .IsRequired();
-
                     b.Navigation("UserDishes");
                 });
 #pragma warning restore 612, 618

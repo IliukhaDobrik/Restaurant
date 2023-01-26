@@ -1,0 +1,37 @@
+﻿@model UserViewModel
+
+@{
+    Layout = "~/Views/Shared/_ReserveLayout.cshtml";
+    ViewData["Title"] = "ReservePage";
+}
+
+<h1 style="position: absolute; top: 170px; left: 40%; font-size: 44px; font-weight: 700">
+    <font color="white">Желаете</font>
+</h1>
+<h1 style="position: absolute; top: 235px; left: 35%; font-size: 44px; font-weight: 700">
+    <font color="white">забронировать?</font>
+</h1>
+<p style="position: absolute; top: 340px; left: 32%; font-size:25px; font-weight:300"><font color="white">Заполните поля и нажмите "Отправить"</font></p>
+
+<form method="post">
+    <div class="row" style="position: absolute; top: 430px;">
+        <div class="col">
+            <input asp-for="FirstName" class="form-control" placeholder="Имя">
+        </div>
+        <div class="col">
+            <input asp-for="LastName" class="form-control" placeholder="Фамилия">
+        </div>
+        <div class="col">
+            <input asp-for="PhoneNumber" class="form-control" placeholder="Номер телефона">
+        </div>
+        <div class="col">
+            <input asp-for="DateOfReservation" class="form-control" placeholder="Дата">
+        </div>
+        <div class="col">
+            <input asp-for="CountOfSeats" class="form-control" placeholder="Количесто мест">
+        </div>
+        <div class="col">
+            <button type="submit" class="btn btn-warning">Отправить</button>
+        </div>
+    </div>
+</form>

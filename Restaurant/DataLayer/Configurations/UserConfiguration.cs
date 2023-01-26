@@ -18,13 +18,14 @@ namespace DataLayer.Configurations
             builder.Property(q => q.UserId).HasDefaultValueSql("NEWID()");
             builder.Property(q => q.FirstName).HasMaxLength(50);
             builder.Property(q => q.LastName).HasMaxLength(50);
+            builder.Property(q => q.PhoneNumber).HasMaxLength(50);
+            builder.Property(q => q.PhoneNumber).IsRequired(false);
             builder.Property(q => q.PlaceId).IsRequired(false);
 
             builder.HasOne(q => q.Place)
                    .WithOne(q => q.User)
                    .HasForeignKey<User>(q => q.PlaceId)
                    .OnDelete(DeleteBehavior.SetNull);
-
         }
     }
 }

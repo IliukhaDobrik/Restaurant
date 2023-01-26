@@ -19,7 +19,7 @@ namespace DataLayer.Triggers
 
         public async Task AfterSave(ITriggerContext<User> context, CancellationToken cancellationToken)
         {
-            if (context.ChangeType == ChangeType.Modified && context.Entity.PlaceId.HasValue)
+            if ((context.ChangeType == ChangeType.Modified || context.ChangeType == ChangeType.Added) && context.Entity.PlaceId.HasValue)
             {
                 var place = await _placeRepository.GetById(context.Entity.PlaceId.Value);
                 place.IsFree = false;
