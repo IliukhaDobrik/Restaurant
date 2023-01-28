@@ -4,9 +4,9 @@ using Restaurant.Models;
 
 namespace Restaurant.MapProfiles
 {
-    public class UserMapProfile : Profile
+    public class UserViewModelMapProfile : Profile
     {
-        public UserMapProfile()
+        public UserViewModelMapProfile()
         {
             CreateMap<UserViewModel, UserRequestDto>();
         }

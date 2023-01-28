@@ -28,7 +28,7 @@ namespace DataLayer.Repositories
             var dish = await GetById(id);
             if (dish is null)
             {
-                throw new ObjectNotExist(nameof(dish));
+                throw new ObjectNotExistExepcion(nameof(dish));
             }
             _context.Menu.Remove(dish);
         }

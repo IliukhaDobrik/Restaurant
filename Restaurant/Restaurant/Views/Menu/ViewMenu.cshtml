@@ -1,0 +1,32 @@
+﻿@using Entities;
+@model List<DishViewModel>
+
+@{
+    Layout = "~/Views/Shared/_MenuLayout.cshtml";
+    ViewData["Titile"] = "ViewMenuPage";
+    int count = 0;
+}
+
+<div style="background-color: whitesmoke; position:absolute;top: 60px;left: 0;width: 100%; height:200px;">
+    <h1 style="position:absolute;top:60px;left:45%"><font size="44px">Меню</font></h1>
+</div>
+
+@*Не знаю как это сделать, пусть будет так*@
+<br><br><br><br><br><br><br><br><br><br>
+
+<div class="row row-cols-1 row-cols-md-3 g-4">
+    @foreach(var dish in Model)
+    {
+        <div class="col">
+            <div class="card">
+                <img src="@dish.ImageUrl" class="card-img-top">
+                <div class="card-body">
+                    <h5 class="card-title">@dish.Name</h5>
+                    <p class="card-text">@dish.Description</p>
+                    <p class="card-text" style="font-weight:700">@dish.Price BYN</p>
+                    <button type="button" class="btn btn-warning">В корзину</button>
+                </div>
+            </div>
+        </div>
+    }
+</div>

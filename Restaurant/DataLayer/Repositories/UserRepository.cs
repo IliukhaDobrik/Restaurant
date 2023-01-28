@@ -30,7 +30,7 @@ namespace DataLayer.Repositories
             var user = await GetById(id);
             if (user is null)
             {
-                throw new ObjectNotExist(nameof(user));
+                throw new ObjectNotExistExepcion(nameof(user));
             }
             _context.Users.Remove(user);
         }

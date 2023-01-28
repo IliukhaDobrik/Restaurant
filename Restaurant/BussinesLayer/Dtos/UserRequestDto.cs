@@ -10,7 +10,7 @@ namespace BussinesLayer.Dtos
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public string PhoneNumber { get; set; }
+        public string? PhoneNumber { get; set; }
         public DateTime DateOfReservation { get; set; }
         public int CountOfSeats { get; set; }
     }

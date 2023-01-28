@@ -7,7 +7,8 @@ using System.Threading.Tasks;
 
 namespace BussinesLayer.Interfaces
 {
-    public interface IUserService : IService<UserRequestDto>
+    public interface IDishService : IService<DishRequestDto>
     {
+        Task<List<DishRequestDto>> GetAll();
     }
 }

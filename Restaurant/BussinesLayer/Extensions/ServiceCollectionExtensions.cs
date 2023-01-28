@@ -1,5 +1,7 @@
-﻿using BussinesLayer.Interfaces;
-using BussinesLayer.Services;
+﻿using AutoMapper;
+using BussinesLayer.Interfaces;
+using BussinesLayer.Services.Dishes;
+using BussinesLayer.Services.Users;
 using DataLayer.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -16,9 +18,11 @@ namespace BussinesLayer.Extensions
         public static IServiceCollection AddBussinesLayerService(this IServiceCollection services, string connectionString)
         {
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IDishService, DishService>();
             services.AddDatabase(connectionString);
+
             services.AddAutoMapper(Assembly.GetCallingAssembly(),
-                               Assembly.GetExecutingAssembly());
+                       Assembly.GetExecutingAssembly());
 
             return services;
         }

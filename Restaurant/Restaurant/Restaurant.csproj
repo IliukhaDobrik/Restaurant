@@ -24,9 +24,16 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="StaticFiles\HomeBackground.png">
+    <Folder Include="wwwroot\images\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="wwwroot\images\HomeBackground.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+    </Content>
+    <Content Update="wwwroot\images\ReserveBackground.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
 </Project>

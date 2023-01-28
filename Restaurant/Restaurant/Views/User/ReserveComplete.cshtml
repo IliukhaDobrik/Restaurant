@@ -1,0 +1,11 @@
+﻿@model int
+
+@{
+    Layout = "~/Views/Shared/_ReserveLayout.cshtml";
+    ViewData["Title"] = "ReservePage";
+}
+
+<h1 style="position: absolute; top: 170px; left: 35%; font-size: 44px; font-weight: 700">
+    <font color="white">Столик забронирован</font><br>
+    <font color="white">Номер столика: @Model.ToString()</font>
+</h1>
