@@ -51,7 +51,7 @@ namespace DataLayer.Migrations
                     b.HasIndex("Name", "Price")
                         .IsUnique();
 
-                    b.ToTable("Menu");
+                    b.ToTable("Menu", (string)null);
                 });
 
             modelBuilder.Entity("Entities.Place", b =>
@@ -72,7 +72,7 @@ namespace DataLayer.Migrations
 
                     b.HasKey("PlaceId");
 
-                    b.ToTable("Places");
+                    b.ToTable("Places", (string)null);
                 });
 
             modelBuilder.Entity("Entities.User", b =>
@@ -118,7 +118,7 @@ namespace DataLayer.Migrations
                         .IsUnique()
                         .HasFilter("[PlaceId] IS NOT NULL");
 
-                    b.ToTable("Users");
+                    b.ToTable("Users", (string)null);
                 });
 
             modelBuilder.Entity("Entities.UserDishes", b =>
@@ -142,7 +142,7 @@ namespace DataLayer.Migrations
                         .IsUnique()
                         .HasFilter("[UserId] IS NOT NULL AND [DishId] IS NOT NULL");
 
-                    b.ToTable("UserDishes");
+                    b.ToTable("UserDishes", (string)null);
                 });
 
             modelBuilder.Entity("Entities.User", b =>
