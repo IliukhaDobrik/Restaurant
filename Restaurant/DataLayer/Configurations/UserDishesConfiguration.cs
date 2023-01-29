@@ -23,13 +23,11 @@ namespace DataLayer.Configurations
 
             builder.HasOne(q => q.User)
                    .WithMany(q => q.UserDishes)
-                   .HasForeignKey(q => q.UserId)
-                   .OnDelete(DeleteBehavior.Cascade);
+                   .HasForeignKey(q => q.UserId);
 
             builder.HasOne(q => q.Dish)
                    .WithMany(q => q.UserDishes)
-                   .HasForeignKey(q => q.DishId)
-                   .OnDelete(DeleteBehavior.Cascade);
+                   .HasForeignKey(q => q.DishId);
         }
     }
 }

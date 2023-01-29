@@ -18,6 +18,8 @@ namespace DataLayer.Configurations
             builder.Property(q => q.DishId).HasDefaultValueSql("NEWID()");
             builder.Property(q => q.Name).HasMaxLength(50);
             builder.Property(q => q.Description).HasMaxLength(255);
+
+            builder.HasIndex(q => new { q.Name, q.Price }).IsUnique();
         }
     }
 }

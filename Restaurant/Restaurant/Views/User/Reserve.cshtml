@@ -1,4 +1,4 @@
-﻿@model UserViewModel
+﻿@model UserReserveViewModel
 
 @{
     Layout = "~/Views/Shared/_ReserveLayout.cshtml";
@@ -14,15 +14,9 @@
 <p style="position: absolute; top: 340px; left: 32%; font-size:25px; font-weight:300"><font color="white">Заполните поля и нажмите "Отправить"</font></p>
 
 <form method="post">
-    <div class="row" style="position: absolute; top: 430px;">
+    <div class="row" style="position: absolute; top: 450px; left:22%">
         <div class="col">
-            <input asp-for="FirstName" class="form-control" placeholder="Имя">
-        </div>
-        <div class="col">
-            <input asp-for="LastName" class="form-control" placeholder="Фамилия">
-        </div>
-        <div class="col">
-            <input asp-for="PhoneNumber" class="form-control" placeholder="Номер телефона">
+            <input asp-for="Email" class="form-control" placeholder="Email">
         </div>
         <div class="col">
             <input asp-for="DateOfReservation" class="form-control" placeholder="Дата">

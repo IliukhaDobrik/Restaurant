@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace BussinesLayer.Interfaces
 {
-    public interface IService<TRequest, TResponse>
+    public interface IService<TRequest>
     {
         //Task<IReadOnlyCollection<TResponse>> GetAll();
-        //Task<TResponse> GetById(Guid id);
-        Task<TResponse> Add(TRequest entity);
-        Task<TResponse> Update(Guid id, TRequest entity);
+        Task<TRequest> GetById(Guid id);
+        //Task<int> Add(TRequest entity);
+        Task Update(Guid id, TRequest entity);
         Task Delete(Guid id);
     }
 }

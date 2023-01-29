@@ -28,7 +28,7 @@ namespace DataLayer.Repositories
             var place = await GetById(id);
             if (place is null)
             {
-                throw new ObjectNotExist(nameof(place));
+                throw new ObjectNotExistExepcion(nameof(place));
             }
             _context.Places.Remove(place);
         }

@@ -25,12 +25,17 @@ namespace DataLayer.Repositories
             return _context.Users.AddAsync(entity).AsTask();
         }
 
+        public Task<User> CheckIdentity(string email, string password)
+        {
+            return _context.Users.FirstOrDefaultAsync(x => x.Password == password && x.Email == email);
+        }
+
         public async Task Delete(Guid id)
         {
             var user = await GetById(id);
             if (user is null)
             {
-                throw new ObjectNotExist(nameof(user));
+                throw new ObjectNotExistExepcion(nameof(user));
             }
             _context.Users.Remove(user);
         }
@@ -43,6 +48,11 @@ namespace DataLayer.Repositories
         public async Task<User> GetById(Guid id)
         {
             return await _context.Users.FindAsync(id);
+        }       
+        
+        public async Task<User> GetByEmail(string email)
+        {
+            return await _context.Users.FirstOrDefaultAsync(x => x.Email == email);
         }
 
         public Task Save()
