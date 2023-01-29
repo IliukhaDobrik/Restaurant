@@ -4,7 +4,6 @@
 @{
     Layout = "~/Views/Shared/_MenuLayout.cshtml";
     ViewData["Titile"] = "ViewMenuPage";
-    int count = 0;
 }
 
 <div style="background-color: whitesmoke; position:absolute;top: 60px;left: 0;width: 100%; height:200px;">
@@ -24,7 +23,7 @@
                     <h5 class="card-title">@dish.Name</h5>
                     <p class="card-text">@dish.Description</p>
                     <p class="card-text" style="font-weight:700">@dish.Price BYN</p>
-                    <button type="button" class="btn btn-warning">В корзину</button>
+                    <button type="button" class="btn btn-warning" onclick="location.href='@Url.Action("AddToBasket", "Basket", new {dishId = dish.Id})'">В корзину</button>
                 </div>
             </div>
         </div>

@@ -16,6 +16,7 @@ namespace DataLayer
         public DbSet<User> Users { get; set; }
         public DbSet<Dish> Menu { get; set; }
         public DbSet<Place> Places { get; set; }
+        public DbSet<UserDishes> UserDishes { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

@@ -10,7 +10,7 @@ namespace BussinesLayer.Interfaces
     {
         //Task<IReadOnlyCollection<TResponse>> GetAll();
         Task<TRequest> GetById(Guid id);
-        Task<int> Add(TRequest entity);
+        //Task<int> Add(TRequest entity);
         Task Update(Guid id, TRequest entity);
         Task Delete(Guid id);
     }

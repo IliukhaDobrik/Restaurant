@@ -1,4 +1,5 @@
-﻿using BussinesLayer.Interfaces;
+﻿using BussinesLayer.Dtos;
+using BussinesLayer.Interfaces;
 using DataLayer.Repositories.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Restaurant.Models;
@@ -7,34 +8,49 @@ namespace Restaurant.Controllers
 {
     public class BasketController : Controller
     {
-        private readonly IDishService _dishService;
+        private readonly IUserDishService _userDishService;
+        private readonly IUserService _userService;
 
-        public BasketController(IDishService dishService)
+        public BasketController(IUserDishService userDishService, IUserService userService)
         {
-            _dishService = dishService;
+            _userDishService = userDishService;
+            _userService = userService;
         }
 
         public async Task<IActionResult> Index()
         {
-            return View();
+            var basket = await GetBasket();
+            return View(basket);
         }
 
-        public async Task<IActionResult> AddToOrder(Guid id)
+        public async Task<IActionResult> AddToBasket(Guid dishId)
         {
-            //что-то придумать с basket
-            var basket = new BasketViewModel();
-            var dish = await _dishService.GetById(id);
-            var dishViewModel = new DishViewModel
+            await _userDishService.Add(new UserDishDto
             {
-                Id = dish.Id,
-                Name = dish.Name,
-                Description = dish.Description,
-                Price = dish.Price,
-                ImageUrl = dish.ImageUrl
-            };
+                DishId = dishId,
+                UserEmail = HttpContext.User.Identity.Name
+            });
+            return RedirectToAction("ViewMenu", "Menu");
+        }
 
-            basket.Order.Add(dishViewModel);
-            return View(basket);
+        private async Task<BasketViewModel> GetBasket()
+        {
+            var user = await _userService.GetByEmail(HttpContext.User.Identity.Name);
+            var dishesDto = await _userDishService.GetById(user.UserId);
+
+            var dishesForModel = new List<DishViewModel>();
+            foreach (var dish in dishesDto)
+            {
+                dishesForModel.Add(new DishViewModel
+                {
+                    Id = dish.Id,
+                    Name = dish.Name,
+                    Description = dish.Description,
+                    Price = dish.Price,
+                    ImageUrl = dish.ImageUrl
+                });
+            }
+            return new BasketViewModel { Order = dishesForModel };
         }
     }
 }

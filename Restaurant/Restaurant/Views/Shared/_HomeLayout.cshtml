@@ -43,7 +43,16 @@
                             <a class="nav-link text-white" asp-area="" asp-controller="User" asp-action="Reserve"><font size="4px">Забронировать</font></a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-white" data-bs-toggle="modal" href="#exampleModal"><font size="4px">Корзина</font></a>
+                            <a class="nav-link text-white" asp-area="" asp-controller="Basket" asp-action="Index"><font size="4px">Корзина</font></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-white" asp-area="" asp-controller="Auth" asp-action="Login"><font size="4px">Войти</font></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-white" asp-area="" asp-controller="Auth" asp-action="Register"><font size="4px">Регистрация</font></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-white" asp-area="" asp-controller="Auth" asp-action="Logout"><font size="4px">Выйти</font></a>
                         </li>
                     </ul>
                     <a href="https://vk.com/i.dobrinsky" class="fa fa-vk" style="font-size: 20px"></a>
@@ -53,7 +62,6 @@
                 </div>
             </div>
         </nav>
-        @await Html.PartialAsync("~/Views/Basket/Index.cshtml")
     </header>
     <div class="container">
         <main role="main" class="pb-3">
@@ -62,3 +70,22 @@
     </div>
 </body>
 </html>
+
+<script src="~/js/modal.js"></script>
+<script>
+    function OpenModal(parametrs){
+        const url : parametrs.url;
+        const modal = $('#modal');
+
+        $.ajax({
+            type: 'GET',
+            url: url,
+            success: function(response){
+                $('.modal-dialog').addClass("modal-lg");
+                   modal.find(".modal-body").html(response);
+                   modal.modal('show')
+            }
+        
+        });
+    };
+</script>

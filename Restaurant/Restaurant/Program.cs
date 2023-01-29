@@ -1,5 +1,6 @@
 using BussinesLayer.Extensions;
 using DataLayer.Extensions;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Restaurant.MapProfiles;
 
 namespace Restaurant
@@ -13,6 +14,11 @@ namespace Restaurant
             // Add services to the container.
             builder.Services.AddControllersWithViews();
             builder.Services.AddBussinesLayerService(builder.Configuration.GetConnectionString("DefaultConnection"));
+            builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                            .AddCookie(options =>
+                            {
+                                options.LoginPath = new Microsoft.AspNetCore.Http.PathString("/Auth/Login");
+                            });
 
             var app = builder.Build();
 
@@ -29,6 +35,7 @@ namespace Restaurant
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.MapControllerRoute(

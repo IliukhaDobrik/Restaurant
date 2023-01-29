@@ -2,20 +2,20 @@
 using BussinesLayer.Dtos;
 using BussinesLayer.Interfaces;
 using Exceptions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Restaurant.Models;
 
 namespace Restaurant.Controllers
 {
+    [Authorize]
     public class MenuController : Controller
     {
         private readonly IDishService _dishService;
-        private readonly IMapper _mapper;
 
-        public MenuController(IDishService dishService, IMapper mapper)
+        public MenuController(IDishService dishService)
         {
             _dishService = dishService;
-            _mapper = mapper;
         }
 
         public async Task<IActionResult> ViewMenu()

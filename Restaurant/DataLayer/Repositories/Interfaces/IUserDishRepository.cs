@@ -7,9 +7,7 @@ using System.Threading.Tasks;
 
 namespace DataLayer.Repositories.Interfaces
 {
-    public interface IUserRepository : IRepository<User>
+    public interface IUserDishRepository : IRepository<UserDishes>
     {
-        Task<User> CheckIdentity(string email, string password);
-        Task<User> GetByEmail(string email);
     }
 }

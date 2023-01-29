@@ -6,6 +6,7 @@ using DataLayer.Repositories;
 using DataLayer.Repositories.Interfaces;
 using Entities;
 using Exceptions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Restaurant.Models;
 using System.Runtime.InteropServices;
@@ -22,6 +23,7 @@ namespace Restaurant.Controllers
             _mapper = mapper;
         }
 
+        [Authorize]
         [HttpGet]
         public async Task<IActionResult> Reserve()
         {
@@ -29,13 +31,13 @@ namespace Restaurant.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Reserve(UserViewModel userViewModel)
+        public async Task<IActionResult> Reserve(UserReserveViewModel userViewModel)
         {
-            var user = _mapper.Map<UserRequestDto>(userViewModel);
+            var user = _mapper.Map<UserReserveDto>(userViewModel);
             int seatNumber;
             try
             {
-                seatNumber = await _userService.Add(user);
+                seatNumber = await _userService.ReservePlace(user);
             }
             catch (ObjectNotExistExepcion)
             {

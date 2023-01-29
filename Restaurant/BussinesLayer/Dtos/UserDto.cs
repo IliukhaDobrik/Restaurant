@@ -6,12 +6,13 @@ using System.Threading.Tasks;
 
 namespace BussinesLayer.Dtos
 {
-    public class UserRequestDto
+    public class UserDto
     {
+        public Guid UserId { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public string? PhoneNumber { get; set; }
-        public DateTime DateOfReservation { get; set; }
-        public int CountOfSeats { get; set; }
+        public string PhoneNumber { get; set; }
+        public string Password { get; set; }
+        public string Email { get; set; }
     }
 }

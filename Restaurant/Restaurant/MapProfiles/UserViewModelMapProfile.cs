@@ -8,7 +8,7 @@ namespace Restaurant.MapProfiles
     {
         public UserViewModelMapProfile()
         {
-            CreateMap<UserViewModel, UserRequestDto>();
+            CreateMap<UserReserveViewModel, UserReserveDto>();
         }
     }
 }

@@ -27,6 +27,7 @@ namespace DataLayer.Extensions
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IPlaceRepository, PlaceRepository>();
             services.AddScoped<IDishRepository, DishRepository>();
+            services.AddScoped<IUserDishRepository, UserDishRepository>();
 
             return services;
         }
