@@ -8,7 +8,6 @@ using Restaurant.Models;
 
 namespace Restaurant.Controllers
 {
-    [Authorize]
     public class MenuController : Controller
     {
         private readonly IDishService _dishService;

@@ -16,8 +16,6 @@ namespace DataLayer.Configurations
             builder.HasKey(q => q.UserDishesId);
             builder.Property(q => q.UserDishesId).HasDefaultValueSql("NEWID()");
 
-            builder.HasIndex(q => new { q.UserId, q.DishId }).IsUnique();
-
             builder.Property(q => q.UserId).IsRequired(false);
             builder.Property(q => q.DishId).IsRequired(false);
 

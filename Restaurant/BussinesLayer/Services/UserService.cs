@@ -11,7 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BussinesLayer.Services.Users
+namespace BussinesLayer.Services
 {
     public class UserService : IUserService
     {
@@ -24,7 +24,7 @@ namespace BussinesLayer.Services.Users
             _userRepository = userRepository;
         }
 
-        public async Task<int> ReservePlace(UserReserveDto entity)
+        public async Task<Tuple<int,DateTime>> ReservePlace(UserReserveDto entity)
         {
             var existUser = await _userRepository.GetAll()
                                                  .Where(x => x.Email == entity.Email)
@@ -36,7 +36,7 @@ namespace BussinesLayer.Services.Users
             //    throw new ObjectAlreadyExistExepcion(nameof(existUser));
             //}
             //ОБРАБОТКА!!!
-  ;
+            ;
             var place = await _placeRepository.GetAll()
                                               .Where(x => x.IsFree == true)
                                               .FirstOrDefaultAsync(x => x.CountOfSeats == entity.CountOfSeats);
@@ -52,7 +52,16 @@ namespace BussinesLayer.Services.Users
             _userRepository.Update(existUser);
             await _userRepository.Save();
 
-            return place.SeatNumber;
+            return new (place.SeatNumber, entity.DateOfReservation);
+        }
+
+
+        public async Task<(int, DateTime)> GetPlace(Guid id)
+        {
+            var user = await _userRepository.GetById(id);
+            var place = await _placeRepository.GetById(user.PlaceId.Value);
+
+            return (place.SeatNumber, user.DateOfReservation.Value);
         }
 
         public async Task Register(UserDto entity)

@@ -12,6 +12,7 @@ namespace BussinesLayer.Interfaces
         Task<UserDto> CheckIdentity(string email, string password);
         Task<UserDto> GetByEmail(string email);
         Task Register(UserDto entity);
-        Task<int> ReservePlace(UserReserveDto entity);
+        Task<Tuple<int,DateTime>> ReservePlace(UserReserveDto entity);
+        Task<(int, DateTime)> GetPlace(Guid id);
     }
 }

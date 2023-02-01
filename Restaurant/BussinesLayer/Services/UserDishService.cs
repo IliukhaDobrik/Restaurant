@@ -38,9 +38,13 @@ namespace BussinesLayer.Services
             await _userDishRepository.Save();
         }
 
-        public Task Delete(Guid id)
+        public async Task Delete(Guid id)
         {
-            throw new NotImplementedException();
+            var userDishes = await _userDishRepository.GetAll().ToArrayAsync();
+            var userDish = userDishes.FirstOrDefault(x => x.DishId == id);
+
+            await _userDishRepository.Delete(userDish.UserDishesId);
+            await _userDishRepository.Save();
         }
 
         public async Task<List<DishRequestDto>> GetById(Guid id)

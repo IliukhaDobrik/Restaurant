@@ -1,13 +1,24 @@
 ﻿@model BasketViewModel
 
 @{
-    ViewData["Title"] = "Basket Page";
+    ViewData["Title"] = "BasketPage";
+    decimal price = 0;
 }
 
 <ul class="list-group">
     @foreach (var item in Model.Order)
     {
-        <li class="list-group-item">@item.Name -- @item.Price</li>
+        price += item.Price;
+        <li class="list-group-item">
+            @item.Name -- @item.Price BYN
+            <button type="button" class="btn btn-secondary" onclick="location.href='@Url.Action("RemoveFromBasket", "Basket", new {dishId = item.Id})'">Удалить</button>
+        </li>
+    }
+    @if(Model.Order.Count != 0)
+    {
+        <li>
+            <button class="btn btn-primary" onclick="location.href='@Url.Action("Pay", "Basket")'">@price BYN</button>
+        </li>
     }
 </ul>
 

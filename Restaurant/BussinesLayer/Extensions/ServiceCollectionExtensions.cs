@@ -1,8 +1,6 @@
 ﻿using AutoMapper;
 using BussinesLayer.Interfaces;
 using BussinesLayer.Services;
-using BussinesLayer.Services.Dishes;
-using BussinesLayer.Services.Users;
 using DataLayer.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -21,6 +19,7 @@ namespace BussinesLayer.Extensions
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IUserDishService, UserDishService>();
             services.AddScoped<IDishService, DishService>();
+            services.AddScoped<IEmailService, EmailService>();
             services.AddDatabase(connectionString);
 
             services.AddAutoMapper(Assembly.GetCallingAssembly(),

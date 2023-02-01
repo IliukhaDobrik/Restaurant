@@ -10,7 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BussinesLayer.Services.Dishes
+namespace BussinesLayer.Services
 {
     public class DishService : IDishService
     {
@@ -37,7 +37,7 @@ namespace BussinesLayer.Services.Dishes
             {
                 throw new ObjectNotExistExepcion(nameof(dishes));
             }
-            
+
             var dishesDto = new List<DishRequestDto>();
             foreach (var dish in dishes)
             {
