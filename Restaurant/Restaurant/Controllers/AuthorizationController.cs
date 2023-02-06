@@ -4,25 +4,22 @@ using Exceptions;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Restaurant.Models;
 using System.Security.Claims;
 
 namespace Restaurant.Controllers
 {
-    public class AuthController : Controller
+    public class AuthorizationController : Controller
     {
         private readonly IUserService _userService;
-        public AuthController(IUserService userService)
+
+        public AuthorizationController(IUserService userService)
         {
             _userService = userService;
         }
 
         [HttpGet]
-        public async Task<IActionResult> Login()
-        {
-            return View();
-        }
+        public async Task<IActionResult> Login() => View();
 
         [HttpPost]
         public async Task<IActionResult> Login(UserLoginViewModel viewModel)
@@ -36,16 +33,13 @@ namespace Restaurant.Controllers
                     await Authenticate(viewModel.Email);
                     return RedirectToAction("Index", "Home");
                 }
-                ModelState.AddModelError("", "Некоректный логин и(или) пароль");
+                ModelState.AddModelError(string.Empty, "Некоректный логин и(или) пароль");
             }
             return View(viewModel);
         }
 
         [HttpGet]
-        public async Task<IActionResult> Register()
-        {
-            return View();
-        }
+        public async Task<IActionResult> Register() => View();
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -58,7 +52,7 @@ namespace Restaurant.Controllers
                 {
                     try
                     {
-                        await _userService.Register(new UserDto
+                        await _userService.Register(new UserRequestDto
                         {
                             Email = viewModel.Email,
                             Password = viewModel.Password,
@@ -72,13 +66,20 @@ namespace Restaurant.Controllers
                         return RedirectToAction("Login");
                     }
                     await Authenticate(viewModel.Email);
+                    return RedirectToAction("Index", "Home");
                 }
                 else
                 {
-                    ModelState.AddModelError("", "Некорректные данные");
+                    ModelState.AddModelError(string.Empty, "Некорректные данные");
                 }
             }
             return View(viewModel);
+        }
+
+        public async Task<IActionResult> Logout()
+        {
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            return RedirectToAction("Index", "Home");
         }
 
         private async Task Authenticate(string email)
@@ -91,13 +92,7 @@ namespace Restaurant.Controllers
 
             ClaimsIdentity id = new ClaimsIdentity(claims, "ApplicationCookie", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(id));
-
         }
 
-        public async Task<IActionResult> Logout()
-        {
-            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            return RedirectToAction("Index", "Home");
-        }
     }
 }

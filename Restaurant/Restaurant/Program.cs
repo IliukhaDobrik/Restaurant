@@ -17,7 +17,7 @@ namespace Restaurant
             builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                             .AddCookie(options =>
                             {
-                                options.LoginPath = new Microsoft.AspNetCore.Http.PathString("/Auth/Login");
+                                options.LoginPath = new Microsoft.AspNetCore.Http.PathString("/Authorization/Login");
                             });
 
             var app = builder.Build();

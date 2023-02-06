@@ -2,24 +2,46 @@
 using BussinesLayer.Dtos;
 using BussinesLayer.Interfaces;
 using DataLayer.Repositories.Interfaces;
-using Entities;
 using Exceptions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace BussinesLayer.Services
 {
     public class DishService : IDishService
     {
         private readonly IDishRepository _dishRepository;
-        public DishService(IDishRepository dishRepository)
+        private readonly IMapper _mapper;
+
+        public DishService(IDishRepository dishRepository, IMapper mapper)
         {
             _dishRepository = dishRepository;
+            _mapper = mapper;
         }
 
+        public async Task<IReadOnlyCollection<DishRequestDto>> GetAll()
+        {
+            var dishes = await _dishRepository.GetAll().ToListAsync();
+            if (dishes.Count() == 0)
+            {
+                throw new ObjectNotExistExepcion(nameof(dishes));
+            }
+            var dishesDto = dishes.Select(q => _mapper.Map<DishRequestDto>(q)).ToList();
+;
+            return dishesDto;
+        }
+
+        public async Task<DishRequestDto> GetById(Guid id)
+        {
+            var dish = await _dishRepository.GetById(id);
+            var dishDto = _mapper.Map<DishRequestDto>(dish);
+            return dishDto;
+        }
+
+        #region NonImplement
+        public Task Update(Guid id, DishRequestDto entity)
+        {
+            throw new NotImplementedException();
+        }
         public Task<int> Add(DishRequestDto entity)
         {
             throw new NotImplementedException();
@@ -29,49 +51,6 @@ namespace BussinesLayer.Services
         {
             throw new NotImplementedException();
         }
-
-        public Task<List<DishRequestDto>> GetAll()
-        {
-            var dishes = _dishRepository.GetAll().ToList();
-            if (dishes.Count() == 0)
-            {
-                throw new ObjectNotExistExepcion(nameof(dishes));
-            }
-
-            var dishesDto = new List<DishRequestDto>();
-            foreach (var dish in dishes)
-            {
-                dishesDto.Add(new DishRequestDto
-                {
-                    Id = dish.DishId,
-                    Name = dish.Name,
-                    Description = dish.Description,
-                    Price = dish.Price,
-                    ImageUrl = dish.ImageUrl
-                });
-            }
-            return Task.FromResult(dishesDto);
-        }
-
-        public async Task<DishRequestDto> GetById(Guid id)
-        {
-            var dish = await _dishRepository.GetById(id);
-            //обратобка ошибки
-            var dishDto = new DishRequestDto
-            {
-                Id = dish.DishId,
-                Name = dish.Name,
-                Description = dish.Description,
-                Price = dish.Price,
-                ImageUrl = dish.ImageUrl
-            };
-
-            return dishDto;
-        }
-
-        public Task Update(Guid id, DishRequestDto entity)
-        {
-            throw new NotImplementedException();
-        }
+        #endregion
     }
 }

@@ -2,7 +2,7 @@
 
 namespace Restaurant.Models
 {
-    public class UserRegistrationViewModel
+    public sealed class UserRegistrationViewModel
     {
         [Required]
         public string FirstName { get; set; }

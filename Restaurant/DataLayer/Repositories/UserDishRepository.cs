@@ -2,11 +2,6 @@
 using Entities;
 using Exceptions;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DataLayer.Repositories
 {
@@ -19,9 +14,20 @@ namespace DataLayer.Repositories
             _context = context;
         }
 
-        public  Task Add(UserDishes entity)
+        #region CRUD operations
+        public IQueryable<UserDishes> GetAll()
         {
-            return _context.UserDishes.AddAsync(entity).AsTask();
+            return _context.Basket.AsQueryable();
+        }
+
+        public async Task<UserDishes> GetById(Guid id)
+        {
+            return await _context.Basket.FindAsync(id);
+        }
+
+        public Task Add(UserDishes entity)
+        {
+            return _context.Basket.AddAsync(entity).AsTask();
         }
 
         public async Task Delete(Guid id)
@@ -34,24 +40,15 @@ namespace DataLayer.Repositories
             _context.Remove(userDish);
         }
 
-        public IQueryable<UserDishes> GetAll()
+        public void Update(UserDishes entity)
         {
-            return _context.UserDishes.AsQueryable();
+            _context.Entry(entity).State = EntityState.Modified;
         }
-
-        public async Task<UserDishes> GetById(Guid id)
-        {
-            return await _context.UserDishes.FindAsync(id);
-        }
+        #endregion
 
         public Task Save()
         {
             return _context.SaveChangesAsync();
-        }
-
-        public void Update(UserDishes entity)
-        {
-            _context.Entry(entity).State = EntityState.Modified;
         }
     }
 }

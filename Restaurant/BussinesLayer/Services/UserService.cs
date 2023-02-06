@@ -5,11 +5,6 @@ using DataLayer.Repositories.Interfaces;
 using Entities;
 using Exceptions;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BussinesLayer.Services
 {
@@ -17,28 +12,20 @@ namespace BussinesLayer.Services
     {
         private readonly IUserRepository _userRepository;
         private readonly IPlaceRepository _placeRepository;
+        private readonly IMapper _mapper;
 
-        public UserService(IUserRepository userRepository, IPlaceRepository placeRepository)
+        public UserService(IUserRepository userRepository, IPlaceRepository placeRepository, IMapper mapper)
         {
             _placeRepository = placeRepository;
             _userRepository = userRepository;
+            _mapper = mapper;
         }
 
-        public async Task<Tuple<int,DateTime>> ReservePlace(UserReserveDto entity)
+        public async Task<(int,DateTime)> ReservePlace(UserReserveDto entity)
         {
-            var existUser = await _userRepository.GetAll()
-                                                 .Where(x => x.Email == entity.Email)
-                                                 .FirstOrDefaultAsync();
-
-            //ОБРАБОТКА!!!
-            //if (existUser is not null)
-            //{
-            //    throw new ObjectAlreadyExistExepcion(nameof(existUser));
-            //}
-            //ОБРАБОТКА!!!
-            ;
+            var existUser = await _userRepository.GetByEmail(entity.Email);
             var place = await _placeRepository.GetAll()
-                                              .Where(x => x.IsFree == true)
+                                              .Where(x => x.UserId == null)
                                               .FirstOrDefaultAsync(x => x.CountOfSeats == entity.CountOfSeats);
 
             if (place is null)
@@ -46,51 +33,48 @@ namespace BussinesLayer.Services
                 throw new ObjectNotExistExepcion(nameof(place));
             }
 
-            existUser.DateOfReservation = entity.DateOfReservation;
-            existUser.Place = place;
+            place.DateOfReservation = entity.DateOfReservation;
+            _placeRepository.Update(place);
+            await _placeRepository.Save();
 
+            existUser.Place = place;
             _userRepository.Update(existUser);
             await _userRepository.Save();
 
-            return new (place.SeatNumber, entity.DateOfReservation);
+            return (place.SeatNumber, entity.DateOfReservation);
         }
 
-
-        public async Task<(int, DateTime)> GetPlace(Guid id)
+        //get place by userId
+        public async Task<(int, DateTime)> GetPlace(Guid userId)
         {
-            var user = await _userRepository.GetById(id);
-            var place = await _placeRepository.GetById(user.PlaceId.Value);
+            var user = await _userRepository.GetById(userId);
+            var place = await _placeRepository.GetAll()
+                                              .FirstOrDefaultAsync(x => x.UserId == user.UserId);
 
-            return (place.SeatNumber, user.DateOfReservation.Value);
+            if (place is null)
+            {
+                throw new NullReferenceException(nameof(place));
+            }
+
+            return (place.SeatNumber, place.DateOfReservation.Value);
         }
 
-        public async Task Register(UserDto entity)
+        public async Task Register(UserRequestDto entity)
         {
-            var existUser = await _userRepository.GetAll()
-                                             .Where(x => x.Email == entity.Email)
-                                             .FirstOrDefaultAsync();
+            var existUser = await _userRepository.GetByEmail(entity.Email);
 
-            //ОБРАБОТКА!!!
             if (existUser is not null)
             {
                 throw new ObjectAlreadyExistExepcion(nameof(existUser));
             }
-            //ОБРАБОТКА!!!
 
-            var user = new User
-            {
-                FirstName = entity.FirstName,
-                LastName = entity.LastName,
-                PhoneNumber = entity.PhoneNumber,
-                Password = entity.Password,
-                Email = entity.Email
-            };
+            var user = _mapper.Map<User>(entity);
 
             await _userRepository.Add(user);
             await _userRepository.Save();
         }
 
-        public async Task<UserDto> CheckIdentity(string email, string password)
+        public async Task<UserRequestDto> CheckIdentity(string email, string password)
         {
             var user = await _userRepository.CheckIdentity(email, password);
 
@@ -99,22 +83,12 @@ namespace BussinesLayer.Services
                 return null;
             }
 
-            var userDto = new UserDto
-            {
-                FirstName = user.FirstName,
-                LastName = user.LastName,
-                PhoneNumber = user.PhoneNumber,
-            };
+            var userDto = _mapper.Map<UserRequestDto>(user);
 
             return userDto;
         }
 
-        public Task Delete(Guid id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public async Task<UserDto> GetByEmail(string email)
+        public async Task<UserRequestDto> GetByEmail(string email)
         {
             var user = await _userRepository.GetByEmail(email);
 
@@ -123,34 +97,30 @@ namespace BussinesLayer.Services
                 return null;
             }
 
-            var userDto = new UserDto
-            {
-                UserId = user.UserId,
-                FirstName = user.FirstName,
-                LastName = user.LastName,
-                PhoneNumber = user.PhoneNumber,
-            };
+            var userDto = _mapper.Map<UserRequestDto>(user);
             return userDto;
         }
 
-        public Task<UserReserveDto> GetById(Guid id)
+        #region NonImplement
+        public Task Delete(Guid id)
         {
             throw new NotImplementedException();
         }
 
-        public Task Update(Guid id, UserReserveDto entity)
+        public Task Update(Guid id, UserRequestDto entity)
         {
             throw new NotImplementedException();
         }
 
-        Task<UserDto> IService<UserDto>.GetById(Guid id)
+        Task<UserRequestDto> GetById(Guid id)
         {
             throw new NotImplementedException();
         }
 
-        public Task Update(Guid id, UserDto entity)
+        Task<UserRequestDto> IService<UserRequestDto>.GetById(Guid id)
         {
             throw new NotImplementedException();
         }
+        #endregion
     }
 }

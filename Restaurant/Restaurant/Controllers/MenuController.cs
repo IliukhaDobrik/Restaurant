@@ -1,8 +1,5 @@
-﻿using AutoMapper;
-using BussinesLayer.Dtos;
-using BussinesLayer.Interfaces;
+﻿using BussinesLayer.Interfaces;
 using Exceptions;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Restaurant.Models;
 
@@ -19,34 +16,27 @@ namespace Restaurant.Controllers
 
         public async Task<IActionResult> ViewMenu()
         {
-            List<DishRequestDto> dishes;
             try
             {
-                dishes = await _dishService.GetAll();
+                var dishes = _dishService.GetAll().Result.ToList();
+
+                var dishViewModels = dishes.Select(x => new DishViewModel
+                {
+                    DishId = x.DishId,
+                    Name = x.Name,
+                    Description = x.Description,
+                    Price = x.Price,
+                    ImageUrl = x.ImageUrl
+                }).ToList();
+
+                return View(dishViewModels);
             }
             catch (ObjectNotExistExepcion)
             {
                 return RedirectToAction("MenuIsEmpty");
             }
-            
-            var dishesViewModels = new List<DishViewModel>();
-            foreach(var dish in dishes)
-            {
-                dishesViewModels.Add(new DishViewModel
-                {
-                    Id = dish.Id,
-                    Name = dish.Name,
-                    Description = dish.Description,
-                    Price = dish.Price,
-                    ImageUrl = dish.ImageUrl
-                });
-            }
-            return View(dishesViewModels);
         }
 
-        public async Task<IActionResult> MenuIsEmpty()
-        {
-            return View();
-        }
+        public async Task<IActionResult> MenuIsEmpty() => View();
     }
 }

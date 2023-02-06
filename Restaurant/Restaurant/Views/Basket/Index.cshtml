@@ -11,7 +11,7 @@
         price += item.Price;
         <li class="list-group-item">
             @item.Name -- @item.Price BYN
-            <button type="button" class="btn btn-secondary" onclick="location.href='@Url.Action("RemoveFromBasket", "Basket", new {dishId = item.Id})'">Удалить</button>
+            <button type="button" class="btn btn-secondary" onclick="location.href='@Url.Action("RemoveFromBasket", "Basket", new {dishId = item.DishId})'">Удалить</button>
         </li>
     }
     @if(Model.Order.Count != 0)

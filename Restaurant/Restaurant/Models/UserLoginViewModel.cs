@@ -1,9 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Restaurant.Models
 {
-    public class UserLoginViewModel
+    public sealed class UserLoginViewModel
     {
         [Required(ErrorMessage = "Не указан email!")]
         public string Email { get; set; }

@@ -1,5 +1,4 @@
 ﻿using BussinesLayer.Interfaces;
-using DataLayer.Repositories.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Restaurant.Models;
 
@@ -8,7 +7,7 @@ namespace Restaurant.Controllers
     public class AccountController : Controller
     {
         private readonly IUserService _userService;
-        private readonly IUserDishService _userDishService;
+
         public AccountController(IUserService userService)
         {
             _userService = userService;
@@ -31,7 +30,7 @@ namespace Restaurant.Controllers
                     DateOfReservation = dateOfReserve
                 });
             }
-            catch (InvalidOperationException)
+            catch (NullReferenceException)
             {
                 return View(new UserViewModel
                 {

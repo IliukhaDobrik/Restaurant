@@ -1,15 +1,8 @@
 ﻿using BussinesLayer.Dtos;
 using BussinesLayer.Interfaces;
-using DataLayer;
 using DataLayer.Repositories.Interfaces;
 using Entities;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BussinesLayer.Services
 {
@@ -26,10 +19,9 @@ namespace BussinesLayer.Services
             _userService = userService;
         }
 
-        public async Task Add(UserDishDto userDishDto)
+        public async Task Add(UserDishRequestDto userDishDto)
         {
             var userDto = await _userService.GetByEmail(userDishDto.UserEmail);
-
             await _userDishRepository.Add(new UserDishes
             {
                 UserId = userDto.UserId,
@@ -38,37 +30,32 @@ namespace BussinesLayer.Services
             await _userDishRepository.Save();
         }
 
-        public async Task Delete(Guid id)
+        public async Task Delete(Guid dishId)
         {
-            var userDishes = await _userDishRepository.GetAll().ToArrayAsync();
-            var userDish = userDishes.FirstOrDefault(x => x.DishId == id);
-
-            await _userDishRepository.Delete(userDish.UserDishesId);
+            var usersDish = await _userDishRepository.GetAll()
+                                                     .FirstOrDefaultAsync(x => x.DishId == dishId);
+            await _userDishRepository.Delete(usersDish.UserDishesId);
             await _userDishRepository.Save();
         }
 
-        public async Task<List<DishRequestDto>> GetById(Guid id)
+        //get all user dishes by userId
+        public async Task<IReadOnlyCollection<DishRequestDto>> GetById(Guid userId)
         {
-            var users = await _userDishRepository.GetAll().Where(x => x.UserId == id).ToListAsync();
-            var dishes = new List<DishRequestDto>();
-
-            foreach (var user in users)
-            {
-                var dishId = new Guid(user.DishId.ToString());
-                dishes.Add(await _dishService.GetById(dishId));
-            }
-
+            var users = await _userDishRepository.GetAll().Where(x => x.UserId == userId).ToListAsync();
+            var dishes = users.Select(q => _dishService.GetById(q.DishId.Value).Result).ToList();
             return dishes;
         }
 
-        public Task Update(Guid id, UserDishDto entity)
+        #region NonImplement
+        public Task Update(Guid id, UserDishRequestDto entity)
         {
             throw new NotImplementedException();
         }
 
-        Task<UserDishDto> IService<UserDishDto>.GetById(Guid id)
+        Task<UserDishRequestDto> IService<UserDishRequestDto>.GetById(Guid id)
         {
             throw new NotImplementedException();
         }
+        #endregion
     }
 }
