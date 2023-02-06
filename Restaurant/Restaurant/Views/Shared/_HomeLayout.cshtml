@@ -36,18 +36,18 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <button type="button" class="btn btn-warning btn-lg" onclick="location.href='@Url.Action("Register", "Auth")'">Регистрация</button>
+                            <button type="button" class="btn btn-warning btn-lg" onclick="location.href='@Url.Action("Register", "Authorization")'">Регистрация</button>
                         </li>
                         @if (User.Identity.IsAuthenticated)
                         {
                             <li class="nav-item">
-                                <button type="button" class="btn btn-warning btn-lg" onclick="location.href='@Url.Action("Logout", "Auth")'">Выйти</button>
+                                <button type="button" class="btn btn-warning btn-lg" onclick="location.href='@Url.Action("Logout", "Authorization")'">Выйти</button>
                             </li>
                         }
                         else
                         {
                             <li class="nav-item">
-                                <button type="button" class="btn btn-warning btn-lg" onclick="location.href='@Url.Action("Login", "Auth")'">Войти</button>
+                                <button type="button" class="btn btn-warning btn-lg" onclick="location.href='@Url.Action("Login", "Authorization")'">Войти</button>
                             </li>
                         }
                         <li class="nav-item">

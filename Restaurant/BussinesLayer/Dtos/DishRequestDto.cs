@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace BussinesLayer.Dtos
+﻿namespace BussinesLayer.Dtos
 {
-    public class DishRequestDto
+    public sealed class DishRequestDto
     {
-        public Guid Id { get; set; }
+        public Guid DishId { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public decimal Price { get; set; }

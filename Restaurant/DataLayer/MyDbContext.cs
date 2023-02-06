@@ -1,11 +1,6 @@
 ﻿using DataLayer.Configurations;
 using Entities;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DataLayer
 {
@@ -16,7 +11,7 @@ namespace DataLayer
         public DbSet<User> Users { get; set; }
         public DbSet<Dish> Menu { get; set; }
         public DbSet<Place> Places { get; set; }
-        public DbSet<UserDishes> UserDishes { get; set; }
+        public DbSet<UserDishes> Basket { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

@@ -23,7 +23,7 @@
                     <h5 class="card-title">@dish.Name</h5>
                     <p class="card-text">@dish.Description</p>
                     <p class="card-text" style="font-weight:700">@dish.Price BYN</p>
-                    <button type="button" class="btn btn-warning" onclick="location.href='@Url.Action("AddToBasket", "Basket", new {dishId = dish.Id})'">В корзину</button>
+                    <button type="button" class="btn btn-warning" onclick="location.href='@Url.Action("AddToBasket", "Basket", new {dishId = dish.DishId})'">В корзину</button>
                 </div>
             </div>
         </div>

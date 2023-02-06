@@ -1,6 +1,6 @@
 ﻿using BussinesLayer.Dtos;
+using BussinesLayer.Helpers.EmailSenders.Interfaces;
 using BussinesLayer.Interfaces;
-using DataLayer.Repositories.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Restaurant.Models;
@@ -12,13 +12,13 @@ namespace Restaurant.Controllers
     {
         private readonly IUserDishService _userDishService;
         private readonly IUserService _userService;
-        private readonly IEmailService _emailService;
+        private readonly IEmailSender _emailSender;
 
-        public BasketController(IUserDishService userDishService, IUserService userService, IEmailService emailService)
+        public BasketController(IUserDishService userDishService, IUserService userService, IEmailSender emailSender)
         {
             _userDishService = userDishService;
             _userService = userService;
-            _emailService = emailService;
+            _emailSender = emailSender;
         }
 
         public async Task<IActionResult> Index()
@@ -34,7 +34,7 @@ namespace Restaurant.Controllers
 
         public async Task<IActionResult> AddToBasket(Guid dishId)
         {
-            await _userDishService.Add(new UserDishDto
+            await _userDishService.Add(new UserDishRequestDto
             {
                 DishId = dishId,
                 UserEmail = HttpContext.User.Identity.Name
@@ -67,10 +67,10 @@ namespace Restaurant.Controllers
 
             foreach(var item in userDishes)
             {
-                await _userDishService.Delete(item.Id);
+                await _userDishService.Delete(item.DishId);
             }
 
-            _emailService.Send(price, User.Identity.Name);
+            _emailSender.Send(price, User.Identity.Name);
 
             return RedirectToAction("Index");
         }
@@ -85,7 +85,7 @@ namespace Restaurant.Controllers
             {
                 dishesForModel.Add(new DishViewModel
                 {
-                    Id = dish.Id,
+                    DishId = dish.DishId,
                     Name = dish.Name,
                     Description = dish.Description,
                     Price = dish.Price,

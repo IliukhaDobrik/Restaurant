@@ -2,11 +2,6 @@
 using Entities;
 using Exceptions;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DataLayer.Repositories
 {
@@ -18,6 +13,18 @@ namespace DataLayer.Repositories
         {
             _context = context;
         }
+
+        #region CRUD operations
+        public IQueryable<Place> GetAll()
+        {
+            return _context.Places.AsQueryable();
+        }
+
+        public async Task<Place> GetById(Guid id)
+        {
+            return await _context.Places.FindAsync(id);
+        }
+
         public Task Add(Place entity)
         {
             return _context.Places.AddAsync(entity).AsTask();
@@ -33,24 +40,15 @@ namespace DataLayer.Repositories
             _context.Places.Remove(place);
         }
 
-        public IQueryable<Place> GetAll()
+        public void Update(Place entity)
         {
-            return _context.Places.AsQueryable();
+            _context.Entry(entity).State = EntityState.Modified;
         }
-
-        public async Task<Place> GetById(Guid id)
-        {
-            return await _context.Places.FindAsync(id);
-        }
+        #endregion
 
         public Task Save()
         {
             return _context.SaveChangesAsync();
-        }
-
-        public void Update(Place entity)
-        {
-            _context.Entry(entity).State = EntityState.Modified;
         }
     }
 }

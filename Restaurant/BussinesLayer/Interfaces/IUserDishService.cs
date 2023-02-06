@@ -1,15 +1,11 @@
 ﻿using BussinesLayer.Dtos;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BussinesLayer.Interfaces
 {
-    public interface IUserDishService : IService<UserDishDto>
+    public interface IUserDishService : IService<UserDishRequestDto>
     {
-        Task<List<DishRequestDto>> GetById(Guid id);
-        Task Add(UserDishDto userDto);
+        //Get all Users dish by userId
+        Task<IReadOnlyCollection<DishRequestDto>> GetById(Guid userId);
+        Task Add(UserDishRequestDto userDto);
     }
 }

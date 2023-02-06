@@ -1,8 +1,8 @@
 ﻿namespace Restaurant.Models
 {
-    public class DishViewModel
+    public sealed class DishViewModel
     {
-        public Guid Id { get; set; }
+        public Guid DishId { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public decimal Price { get; set; }

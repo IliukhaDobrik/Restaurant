@@ -1,11 +1,6 @@
 ﻿using Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DataLayer.Configurations
 {
@@ -14,7 +9,6 @@ namespace DataLayer.Configurations
         public void Configure(EntityTypeBuilder<UserDishes> builder)
         {
             builder.HasKey(q => q.UserDishesId);
-            builder.Property(q => q.UserDishesId).HasDefaultValueSql("NEWID()");
 
             builder.Property(q => q.UserId).IsRequired(false);
             builder.Property(q => q.DishId).IsRequired(false);

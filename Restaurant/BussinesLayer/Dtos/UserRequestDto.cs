@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace BussinesLayer.Dtos
+﻿namespace BussinesLayer.Dtos
 {
-    public class UserDto
+    public sealed class UserRequestDto
     {
         public Guid UserId { get; set; }
         public string FirstName { get; set; }

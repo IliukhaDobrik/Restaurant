@@ -2,12 +2,6 @@
 using Entities;
 using Exceptions;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection.Metadata;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DataLayer.Repositories
 {
@@ -20,14 +14,25 @@ namespace DataLayer.Repositories
             _context = context;
         }
 
+        #region CRUD operations
+        public IQueryable<User> GetAll()
+        {
+            return _context.Users.AsQueryable();
+        }
+
+        public async Task<User> GetById(Guid id)
+        {
+            return await _context.Users.FindAsync(id);
+        }
+
+        public async Task<User> GetByEmail(string email)
+        {
+            return await _context.Users.FirstOrDefaultAsync(x => x.Email == email);
+        }
+
         public Task Add(User entity)
         {
             return _context.Users.AddAsync(entity).AsTask();
-        }
-
-        public Task<User> CheckIdentity(string email, string password)
-        {
-            return _context.Users.FirstOrDefaultAsync(x => x.Password == password && x.Email == email);
         }
 
         public async Task Delete(Guid id)
@@ -40,29 +45,20 @@ namespace DataLayer.Repositories
             _context.Users.Remove(user);
         }
 
-        public IQueryable<User> GetAll()
+        public void Update(User entity)
         {
-            return _context.Users.AsQueryable();
+            _context.Entry(entity).State = EntityState.Modified;
         }
+        #endregion
 
-        public async Task<User> GetById(Guid id)
+        public Task<User> CheckIdentity(string email, string password)
         {
-            return await _context.Users.FindAsync(id);
-        }       
-        
-        public async Task<User> GetByEmail(string email)
-        {
-            return await _context.Users.FirstOrDefaultAsync(x => x.Email == email);
+            return _context.Users.FirstOrDefaultAsync(x => x.Password == password && x.Email == email);
         }
 
         public Task Save()
         {
             return _context.SaveChangesAsync();
-        }
-
-        public void Update(User entity)
-        {
-            _context.Entry(entity).State = EntityState.Modified;
-        }
+        }        
     }
 }

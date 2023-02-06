@@ -1,6 +1,6 @@
 ﻿namespace Restaurant.Models
 {
-    public class UserReserveViewModel
+    public sealed class UserReserveViewModel
     {
         public string Email { get; set; }
         public DateTime DateOfReservation { get; set; }
